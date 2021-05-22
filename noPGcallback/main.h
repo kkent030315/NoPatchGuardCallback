@@ -165,6 +165,14 @@ typedef struct _RTL_PROCESS_MODULES
     RTL_PROCESS_MODULE_INFORMATION Modules[ 1 ];
 } RTL_PROCESS_MODULES, * PRTL_PROCESS_MODULES;
 
-EXTERN_C NTSYSCALLAPI NTSTATUS NTAPI ZwQuerySystemInformation( ULONG InfoClass, PVOID Buffer, ULONG Length, PULONG ReturnLength );
+EXTERN_C 
+NTSYSCALLAPI 
+NTSTATUS 
+NTAPI 
+ZwQuerySystemInformation( 
+    ULONG InfoClass, 
+    PVOID Buffer, 
+    ULONG Length, 
+    PULONG ReturnLength );
 
 #endif // _NPGCB_MAIN_H_
