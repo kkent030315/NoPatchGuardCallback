@@ -1,23 +1,71 @@
 [Version]
 Signature="$WINDOWS NT$"
-Class=System
-ClassGuid={4d36e97d-e325-11ce-bfc1-08002be10318}
-Provider=noPGcallback
-DriverVer=0
-CatalogFile=noPGcallback.cat
+Class=Sample
+ClassGuid={78A1C341-4539-11d3-B88D-00C04FAD5171}
+Provider=%ManufacturerName%
+CatalogFile=Template.cat
+DriverVer=
 PnpLockDown=1
 
 [DestinationDirs]
 DefaultDestDir = 12
+Template_Device_CoInstaller_CopyFiles = 11
 
+[ClassInstall32]
+Addreg=SampleClassReg
+
+[SampleClassReg]
+HKR,,,0,%ClassName%
+HKR,,Icon,,-5
 
 [SourceDisksNames]
 1 = %DiskName%,,,""
 
 [SourceDisksFiles]
+Template.sys  = 1,,
+WdfCoInstaller$KMDFCOINSTALLERVERSION$.dll=1
 
+[Manufacturer]
+%ManufacturerName%=Standard,NT$ARCH$
+
+[Standard.NT$ARCH$]
+%Template.DeviceDesc%=Template_Device, Root\Template
+
+[Template_Device.NT]
+CopyFiles=;
+
+[Drivers_Dir]
+Template.sys
+
+[Template_Device.NT.Services]
+AddService = Template,%SPSVCINST_ASSOCSERVICE%, Template_Service_Inst
+
+[Template_Service_Inst]
+DisplayName    = %Template.SVCDESC%
+ServiceType    = 1
+StartType      = 3
+ErrorControl   = 1
+ServiceBinary  = %12%\Template.sys
+
+[Template_Device.NT.CoInstallers]
+AddReg=Template_Device_CoInstaller_AddReg
+CopyFiles=Template_Device_CoInstaller_CopyFiles
+
+[Template_Device_CoInstaller_AddReg]
+HKR,,CoInstallers32,0x00010000, "WdfCoInstaller$KMDFCOINSTALLERVERSION$.dll,WdfCoInstaller"
+
+[Template_Device_CoInstaller_CopyFiles]
+WdfCoInstaller$KMDFCOINSTALLERVERSION$.dll
+
+[Template_Device.NT.Wdf]
+KmdfService =  Template, Template_wdfsect
+[Template_wdfsect]
+KmdfLibraryVersion = $KMDFVERSION$
 
 [Strings]
-ManufacturerName=""
-ClassName=""
-DiskName="noPGcallback"
+SPSVCINST_ASSOCSERVICE= 0x00000002
+ManufacturerName="<Your manufacturer name>"
+ClassName="Samples"
+DiskName = "Template Installation Disk"
+Template.DeviceDesc = "Template Device"
+Template.SVCDESC = "Template Service"
