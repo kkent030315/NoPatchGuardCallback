@@ -150,7 +150,7 @@ NTSTATUS NpgRegisterCallback(
 	//
 	// allocate the new callback-block
 	//
-	PEX_CALLBACK_ROUTINE_BLOCK CallbackBlock =
+	PCALLBACK_ROUTINE_BLOCK CallbackBlock =
 		ExAllocateCallBack( PsCreateProcessNotifyCallback, FALSE );
 
 	if ( !CallbackBlock )
