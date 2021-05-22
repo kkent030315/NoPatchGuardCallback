@@ -10,6 +10,8 @@
 
 x64 Windows PatchGuard Bypass, Register Process-Creation Callbacks
 
+Read: https://www.godeye.club/2021/05/22/001-bypass-patchguard-pssetcreateprocessnotifyroutine.html
+
 ## What
 
 This project is to bypass PatchGuard protection against `PsSetCreateProcessNotifyRoutine` by DKOM - *self register* arbitrary callback routine by directly manipulating kernel objects.
