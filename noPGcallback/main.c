@@ -31,30 +31,30 @@ PVOID NpgQueryModuleImageBase( PCHAR ModuleName )
 	NTSTATUS ntStatus = STATUS_SUCCESS;
 	PVOID Address = 0;
 	ULONG NeededSize = 0;
-	
-    ntStatus = ZwQuerySystemInformation( 
+
+	ntStatus = ZwQuerySystemInformation(
 		SystemModuleInformation, 0, 0, &NeededSize );
-	
-    if ( ntStatus != STATUS_INFO_LENGTH_MISMATCH )
-    {
+
+	if ( ntStatus != STATUS_INFO_LENGTH_MISMATCH )
+	{
 		NPGCB_KDPRINT( "ZwQuerySystemInformation Failed\n" );
 		return Address;
 	}
 
-    PRTL_PROCESS_MODULES modules = ( PRTL_PROCESS_MODULES )
+	PRTL_PROCESS_MODULES modules = ( PRTL_PROCESS_MODULES )
 		ExAllocatePool( NonPagedPool, NeededSize );
 
 	if ( !modules )
-    {
+	{
 		NPGCB_KDPRINT( "Failed to allocate pool\n" );
 		return Address;
 	}
 
-    ntStatus = ZwQuerySystemInformation(
-        SystemModuleInformation, modules, NeededSize, 0 );
+	ntStatus = ZwQuerySystemInformation(
+		SystemModuleInformation, modules, NeededSize, 0 );
 
 	if ( !NT_SUCCESS( ntStatus ) )
-    {
+	{
 		NPGCB_KDPRINT( "ZwQuerySystemInformation Failed\n" );
 		ExFreePool( modules );
 		return Address;
@@ -62,7 +62,7 @@ PVOID NpgQueryModuleImageBase( PCHAR ModuleName )
 
 	for ( ULONG i = 0; i < modules->NumberOfModules; ++i )
 	{
-        RTL_PROCESS_MODULE_INFORMATION entry = modules->Modules[ i ];
+		RTL_PROCESS_MODULE_INFORMATION entry = modules->Modules[ i ];
 
 		if ( strstr( ( PCHAR )entry.FullPathName, ModuleName ) )
 		{
@@ -128,7 +128,7 @@ NTSTATUS NpgInitialize()
 	return ntStatus;
 }
 
-NTSTATUS NpgRegisterCallback( 
+NTSTATUS NpgRegisterCallback(
 	PCREATE_PROCESS_NOTIFY_ROUTINE NotifyRoutine )
 {
 	NTSTATUS ntStatus = STATUS_SUCCESS;
@@ -188,14 +188,14 @@ NTSTATUS NpgRegisterCallback(
 			return STATUS_INSUFFICIENT_RESOURCES;
 		}
 	}
-	
+
 	//
 	// increment count
 	// i am sorry for the terrible expression
 	//
-	InterlockedIncrement( (volatile LONG*)
+	InterlockedIncrement( ( volatile LONG* )
 		&*( UINT32* )
-			( ( UINT_PTR )NtosKrnlImageBase + RVA_PSP_CREATE_PROCESS_NOTIFY_ROUTINE_COUNT ) );
+		( ( UINT_PTR )NtosKrnlImageBase + RVA_PSP_CREATE_PROCESS_NOTIFY_ROUTINE_COUNT ) );
 
 	NPGCB_KDPRINT( "Callback is now registered\n" );
 
@@ -204,8 +204,8 @@ NTSTATUS NpgRegisterCallback(
 
 NTSTATUS DispatchDriverEntry
 (
-    IN PDRIVER_OBJECT DriverObject,
-    IN PUNICODE_STRING RegistryPath
+	IN PDRIVER_OBJECT DriverObject,
+	IN PUNICODE_STRING RegistryPath
 )
 {
 	UNREFERENCED_PARAMETER( DriverObject );
@@ -247,7 +247,7 @@ NTSTATUS DispatchDriverEntry
 VOID
 UnloadDriver
 (
-    IN PDRIVER_OBJECT DriverObject
+	IN PDRIVER_OBJECT DriverObject
 )
 {
 	UNREFERENCED_PARAMETER( DriverObject );
@@ -258,11 +258,11 @@ UnloadDriver
 //
 NTSTATUS DriverEntry
 (
-    IN PDRIVER_OBJECT DriverObject,
-    IN PUNICODE_STRING RegistryPath
+	IN PDRIVER_OBJECT DriverObject,
+	IN PUNICODE_STRING RegistryPath
 )
 {
-    DriverObject->DriverUnload = UnloadDriver;
+	DriverObject->DriverUnload = UnloadDriver;
 
 	return DispatchDriverEntry( DriverObject, RegistryPath );
 }
