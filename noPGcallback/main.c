@@ -41,28 +41,28 @@ PVOID NpgQueryModuleImageBase( PCHAR ModuleName )
 		return Address;
 	}
 
-	PRTL_PROCESS_MODULES modules = ( PRTL_PROCESS_MODULES )
+	PRTL_PROCESS_MODULES ModuleList = ( PRTL_PROCESS_MODULES )
 		ExAllocatePool( NonPagedPool, NeededSize );
 
-	if ( !modules )
+	if ( !ModuleList )
 	{
 		NPGCB_KDPRINT( "Failed to allocate pool\n" );
 		return Address;
 	}
 
 	ntStatus = ZwQuerySystemInformation(
-		SystemModuleInformation, modules, NeededSize, 0 );
+		SystemModuleInformation, ModuleList, NeededSize, 0 );
 
 	if ( !NT_SUCCESS( ntStatus ) )
 	{
 		NPGCB_KDPRINT( "ZwQuerySystemInformation Failed\n" );
-		ExFreePool( modules );
+		ExFreePool( ModuleList );
 		return Address;
 	}
 
-	for ( ULONG i = 0; i < modules->NumberOfModules; ++i )
+	for ( ULONG i = 0; i < ModuleList->NumberOfModules; ++i )
 	{
-		RTL_PROCESS_MODULE_INFORMATION entry = modules->Modules[ i ];
+		RTL_PROCESS_MODULE_INFORMATION entry = ModuleList->Modules[ i ];
 
 		if ( strstr( ( PCHAR )entry.FullPathName, ModuleName ) )
 		{
@@ -71,7 +71,7 @@ PVOID NpgQueryModuleImageBase( PCHAR ModuleName )
 		}
 	}
 
-	ExFreePool( modules );
+	ExFreePool( ModuleList );
 	return Address;
 }
 
