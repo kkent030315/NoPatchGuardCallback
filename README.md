@@ -28,6 +28,11 @@ When `PsSetCreateProcessNotifyRoutine` is called by the unsigned code, `KiRaiseS
 
 ![bugcheck 0x139](bugcheck0x139.png)
 
+## Warn
+
+This PoC does not implement callback-block deletion.  
+Please make sure to create fresh VM in order to try it.
+
 ## License
 
 MIT 🄫 Kento Oki \<hrn832@protonmail.com\>
