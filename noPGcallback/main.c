@@ -28,7 +28,7 @@
 
 PVOID NpgQueryModuleImageBase( PCHAR ModuleName )
 {
-    NTSTATUS ntStatus = STATUS_SUCCESS;
+	NTSTATUS ntStatus = STATUS_SUCCESS;
 	PVOID Address = 0;
 	ULONG NeededSize = 0;
 	
