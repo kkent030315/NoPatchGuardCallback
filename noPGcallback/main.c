@@ -168,11 +168,11 @@ NTSTATUS NpgRegisterCallback(
 	//
 	// this array (sizeof 64) contains all callback blocks
 	//
-	PVOID* Array = &*( PVOID* )
+	PVOID* PspCreateProcessNotifyRoutine = &*( PVOID* )
 		( ( UINT_PTR )NtosKrnlImageBase + RVA_PSP_CREATE_PROCESS_NOTIFY_ROUTINE );
 
 	while ( !ExCompareExchangeCallBack(
-		&Array[ Counter ],
+		&PspCreateProcessNotifyRoutine[ Counter ],
 		CallbackBlock,
 		0 ) )
 	{
