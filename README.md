@@ -8,7 +8,7 @@
 
 # NoPatchGuardCallback
 
-x64 Windows PatchGuard Bypass, Register Process-Creation Callbacks
+x64 Windows PatchGuard bypass, register process-creation callbacks from unsigned code
 
 Read: https://www.godeye.club/2021/05/22/001-bypass-patchguard-pssetcreateprocessnotifyroutine.html
 
